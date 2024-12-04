@@ -1,2 +1,1 @@
-    print("click buy")
-                print("click yes")  
+time.sleep(0.

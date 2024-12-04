@@ -20,7 +20,7 @@ TOUKEN_BLUE=np.array([27,106,255])
 CONTINUE_ORANGE=np.array([222,108,15])
 SHINAN_GREEN=np.array([132,170,22])
 ALERT_RED=np.array([250,40,41])
-KATANA_PURPLE=np.array([147,47,110])
+KATANA_NAVY=np.array([62,90,125])
 class decide:
     def __init__(self,img_path:str):
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
@@ -48,21 +48,21 @@ class decide:
             if count==3 and isClick:
                 pyautogui.click(p[0],p[1])    
         return count
-    def normal_click(self,x:int=946,y:int=763):
+    def normal_click(self,x:int=946,y:int=773):
         #click
         print(f"normal click ({x},{y})")
         pyautogui.doubleClick(x,y,interval=0.25)
         return
     def buy(self):
         #detect lack of money
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         position_tegata_gray=([888,812],[1682,814],[896,504])
         #buy kohan
         if self.position_color_check(position_tegata_gray,TEGATA_GRAY)==3:
             position1=([888,468],[938,468],[896,504])
             self.position_color_check(position1,KOHAN_GREEN,isClick=True)
-            time.sleep(1)
+            time.sleep(0.5)
             self.image_catch()
             position2=([1614,812],[1682,814],[1770,816])
             self.position_color_check(position2,SHADOW_GREEN,isClick=True)
@@ -72,22 +72,22 @@ class decide:
     def start(self):
         #select butai
         position1=([1500,900],[1544,900],[1514,972])
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         self.position_color_check(position1,COLOR_DEEP_RED,isClick=True)
         #iza syutsujin
         position2=([1614,812],[1682,814],[1770,816])
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         self.position_color_check(position2,SHADOW_GREEN,isClick=True)
         #green position
         #position3=([860,878],[943,872],[1029,877])
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         #self.position_color_check(position3,SHADOW_GREEN,isClick=True)
         self.green_click()
     def green_click(self):
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         red_position=([703,667],[687,666])
         #detect the katana is tired
@@ -114,7 +114,7 @@ class decide:
         else:
             return
     def satsu_select(self):
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         image=self.img
         #check whether is the selection part sinan green
@@ -133,7 +133,7 @@ class decide:
         print(f"random click ({x},{y})")
         pyautogui.doubleClick(x,y,interval=0.25)
     def black_satsu_click(self):
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         position=([381,330],[410,329],[505,362])
         is_trigger=0
@@ -175,7 +175,7 @@ class decide:
                     time.sleep(0.5) 
         return 
     def koikoi_agari(self):
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         print("koikoi detected")
         image=self.img
@@ -204,7 +204,7 @@ class decide:
         #plt.imshow(image)
         #plt.show()
     def continue_run(self): 
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         image=self.img
         position=([1567,280],[1570,340],[1539,314])
@@ -234,13 +234,13 @@ class decide:
             pyautogui.doubleClick(centroid[0],centroid[1])
             cv2.circle(image,centroid,5,(0,0,255),5)
     def continue_check(self):
-        time.sleep(1)
+        time.sleep(0.5)
         self.image_catch()
         position=([1411,833],[1481,828],[1467,880])
         self.position_color_check(position,CONTINUE_ORANGE,isClick=True)
     def find_new_katana(self):
-        position=([[1411,321],[1431,334],[1398,326]])
-        if self.position_color_check(position,KATANA_PURPLE)==3:
+        position=([[1492,793],[1531,791],[1542,813]])
+        if self.position_color_check(position,KATANA_NAVY)==3:
             print("find new katana trigger")
             self.normal_click(949,694)
 if __name__=="__main__":
