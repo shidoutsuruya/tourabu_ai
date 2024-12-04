@@ -20,6 +20,7 @@ TOUKEN_BLUE=np.array([27,106,255])
 CONTINUE_ORANGE=np.array([222,108,15])
 SHINAN_GREEN=np.array([132,170,22])
 ALERT_RED=np.array([250,40,41])
+KATANA_PURPLE=np.array([147,47,110])
 class decide:
     def __init__(self,img_path:str):
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
@@ -47,10 +48,8 @@ class decide:
             if count==3 and isClick:
                 pyautogui.click(p[0],p[1])    
         return count
-    def normal_click(self):
+    def normal_click(self,x:int=946,y:int=763):
         #click
-        x=938
-        y=789
         print(f"normal click ({x},{y})")
         pyautogui.doubleClick(x,y,interval=0.25)
         return
@@ -91,8 +90,14 @@ class decide:
         time.sleep(1)
         self.image_catch()
         red_position=([703,667],[687,666])
+        #detect the katana is tired
         if self.position_color_check(red_position,ALERT_RED,isClick=False)>1:
             print("alert detected!!!")
+            #close chrome
+            #os.system("taskkill /im chrome.exe /f")
+            #time.sleep(5)
+            #computer will close
+            #os.system("shutdown /s /t 200")
             sys.exit()
         mask=np.all(self.img==SHADOW_GREEN,axis=-1)
         is_green_color=np.any(mask)
@@ -233,15 +238,18 @@ class decide:
         self.image_catch()
         position=([1411,833],[1481,828],[1467,880])
         self.position_color_check(position,CONTINUE_ORANGE,isClick=True)
+    def find_new_katana(self):
+        position=([[1411,321],[1431,334],[1398,326]])
+        if self.position_color_check(position,KATANA_PURPLE)==3:
+            print("find new katana trigger")
+            self.normal_click(949,694)
 if __name__=="__main__":
-    #test=decide(os.path.join(FOLDER_PATH,"kohan1.png"))
-    #test.start()
     while True:
         test=decide(os.path.join(FOLDER_PATH,"screenshot.png"))
-        #test.buy()
         test.start()
         test.satsu_select()
         test.continue_run()
         test.black_satsu_click()
         test.continue_check()
+        test.find_new_katana()
         test.normal_click()
