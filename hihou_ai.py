@@ -22,9 +22,12 @@ SHINAN_GREEN=np.array([132,170,22])
 ALERT_RED=np.array([250,40,41])
 KATANA_NAVY=np.array([62,90,125])
 class decide:
+    #when playing, 80% of the website in google chrome
     def __init__(self,img_path:str):
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
         self.img_path=img_path
+        #close the computer
+        self.close=True
     def image_catch(self):
         screenshot = pyautogui.screenshot()
         screenshot.save(self.img_path)
@@ -53,22 +56,6 @@ class decide:
         print(f"normal click ({x},{y})")
         pyautogui.doubleClick(x,y,interval=0.25)
         return
-    def buy(self):
-        #detect lack of money
-        time.sleep(0.5)
-        self.image_catch()
-        position_tegata_gray=([888,812],[1682,814],[896,504])
-        #buy kohan
-        if self.position_color_check(position_tegata_gray,TEGATA_GRAY)==3:
-            position1=([888,468],[938,468],[896,504])
-            self.position_color_check(position1,KOHAN_GREEN,isClick=True)
-            time.sleep(0.5)
-            self.image_catch()
-            position2=([1614,812],[1682,814],[1770,816])
-            self.position_color_check(position2,SHADOW_GREEN,isClick=True)
-            return self.buy()    
-        else:
-            return  
     def start(self):
         #select butai
         position1=([1500,900],[1544,900],[1514,972])
@@ -81,10 +68,8 @@ class decide:
         self.image_catch()
         self.position_color_check(position2,SHADOW_GREEN,isClick=True)
         #green position
-        #position3=([860,878],[943,872],[1029,877])
         time.sleep(0.5)
         self.image_catch()
-        #self.position_color_check(position3,SHADOW_GREEN,isClick=True)
         self.green_click()
     def green_click(self):
         time.sleep(0.5)
@@ -93,11 +78,12 @@ class decide:
         #detect the katana is tired
         if self.position_color_check(red_position,ALERT_RED,isClick=False)>1:
             print("alert detected!!!")
-            #close chrome
-            #os.system("taskkill /im chrome.exe /f")
-            #time.sleep(5)
-            #computer will close
-            #os.system("shutdown /s /t 200")
+            if self.close:
+                #close chrome
+                os.system("taskkill /im chrome.exe /f")
+                time.sleep(5)
+                #computer will close
+                os.system("shutdown /s /t 200")
             sys.exit()
         mask=np.all(self.img==SHADOW_GREEN,axis=-1)
         is_green_color=np.any(mask)
