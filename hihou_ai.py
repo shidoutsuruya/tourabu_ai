@@ -7,7 +7,7 @@ import time
 import os
 from typing import *
 import sys
-FOLDER_PATH = r'C:/Users/Max/Desktop/hihou_test'
+FOLDER_PATH = r'C:/Users/Max/Desktop/tourabu_ai'
 COLOR_DEEP_RED=np.array([175,24,24])
 SHADOW_GREEN=np.array([130,170,21])
 COLOR_BLACK=np.array([35,6,2])

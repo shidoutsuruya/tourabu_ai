@@ -6,7 +6,7 @@ import os
 from typing import *
 import sys
 import cv2
-FOLDER_PATH = r'C:/Users/Max/Desktop/hihou_test'
+FOLDER_PATH = r'C:/Users/Max/Desktop/tourabu_ai'
 COLOR_DEEP_RED=np.array([175,24,24])
 SHADOW_GREEN=np.array([130,170,21])
 KOHAN_GREEN=np.array([54,160,99])
@@ -45,7 +45,7 @@ class decide:
     def normal_click(self,x:int=946,y:int=773):
         #click
         print(f"normal click ({x},{y})")
-        pyautogui.doubleClick(x,y,interval=0.25)
+        pyautogui.doubleClick(x,y,interval=0.1)
         return
     def start(self):
         #select butai
@@ -90,7 +90,6 @@ class decide:
             return self.green_click()
         else:
             return    
-    #need debug
     def continue_run(self): 
         time.sleep(0.5)
         self.image_catch()
@@ -115,25 +114,25 @@ class decide:
                     if len(approx)==6:
                         cv2.drawContours(image,[approx],0,(255,0,0),10)
                         rects.append(approx)
-            #print(rects)
-            centroid=rects[0].mean(axis=0)
-            centroid=tuple(centroid.flatten().astype(int))
-            #CLICK
-            pyautogui.doubleClick(centroid[0],centroid[1])
-            cv2.circle(image,centroid,5,(0,0,255),5)
+            #calculate centroid
+            if len(rects)>0:
+                for rect in rects:
+                    centroid=rect.mean(axis=0)
+                    centroid=tuple(centroid.flatten().astype(int))
+                    if 1349<centroid[0]<1515:
+                        pyautogui.doubleClick(centroid[0],centroid[1])
+                        print(f"click {centroid}")
+            #cv2.circle(image,centroid,5,(0,0,255),5)
     def find_new_katana(self):
         position=([[1492,793],[1531,791],[1542,813]])
         if self.position_color_check(position,KATANA_NAVY)==3:
             print("find new katana trigger")
+            time.sleep(1)
             self.normal_click(949,694)
 if __name__=="__main__":
     while True:
-        d=decide(FOLDER_PATH+"/screenshot.png")
+        d=decide(os.path.join(FOLDER_PATH,"screenshot.png"))
         d.start()
         d.continue_run()
         d.find_new_katana()
-        time.sleep(1)
-        d.image_catch()
-        print("next loop")
-        time.sleep(1)
-        #break
+        d.normal_click()
