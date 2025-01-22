@@ -18,7 +18,7 @@ class decide:
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
         self.img_path=img_path
         #close the computer
-        self.close=False
+        self.close=True
     def image_catch(self):
         screenshot = pyautogui.screenshot()
         screenshot.save(self.img_path)
@@ -131,7 +131,7 @@ class decide:
             self.normal_click(949,694)
 if __name__=="__main__":
     while True:
-        d=decide(os.path.join(FOLDER_PATH,"screenshot.png"))
+        d=decide(os.path.join(FOLDER_PATH,"1.png"))
         d.start()
         d.continue_run()
         d.find_new_katana()
