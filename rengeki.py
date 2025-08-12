@@ -64,7 +64,7 @@ class decide:
         self.green_click()
     def green_click(self):
         time.sleep(0.5)
-        #self.image_catch()
+        self.image_catch()
         red_position=([703,667],[687,666])
         #detect the katana is tired
         if self.position_color_check(red_position,ALERT_RED,isClick=False)>1:
@@ -82,7 +82,6 @@ class decide:
             coordinate=np.column_stack(np.where(mask))
             #filter the green block where is not the decision button
             filtered= coordinate[coordinate[:, 0]>600]
-            print(filtered)
             if filtered.shape[0]==0:
                 print("no green click")
                 return
