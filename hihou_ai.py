@@ -27,7 +27,7 @@ class decide:
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
         self.img_path=img_path
         #close the computer
-        self.close=True
+        self.close=False
     def image_catch(self):
         screenshot = pyautogui.screenshot()
         screenshot.save(self.img_path)

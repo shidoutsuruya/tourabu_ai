@@ -38,7 +38,7 @@ class decide:
         time.sleep(0.5)
         self.image_catch()
         image=self.img
-        position=([1530,288],[1555,310],[1583,311])
+        position=([1544,304],[1567,300],[1613,302])
         if self.position_color_check(position,CONTINUE_PURPLE)==3:
             print("continue run is detected")
             gray=cv2.GaussianBlur(image,(3,3),0)
@@ -59,9 +59,8 @@ class decide:
             rects=np.array(rects)
             centroid=rects.mean(axis=1)
             centroid=centroid.mean(axis=0).astype(int).flatten()
-            pyautogui.doubleClick(centroid[0],centroid[1]+100)
+            pyautogui.doubleClick(centroid[0],centroid[1]+150)
             cv2.circle(image,centroid,5,(0,0,255),5)
-            #sys.exit()
     def find_new_katana(self):
         position=([[1492,793],[1531,791],[1542,813]])
         if self.position_color_check(position,KATANA_NAVY)==3:

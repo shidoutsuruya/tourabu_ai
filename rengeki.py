@@ -64,7 +64,7 @@ class decide:
         self.green_click()
     def green_click(self):
         time.sleep(0.5)
-        self.image_catch()
+        #self.image_catch()
         red_position=([703,667],[687,666])
         #detect the katana is tired
         if self.position_color_check(red_position,ALERT_RED,isClick=False)>1:
@@ -76,11 +76,18 @@ class decide:
                 #computer will close
                 os.system("shutdown /s /t 200")
             sys.exit()
-        mask=np.all(self.img==SHADOW_GREEN,axis=-1)
+        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN) <= 20, axis=-1)
         is_green_color=np.any(mask)
         if is_green_color:
             coordinate=np.column_stack(np.where(mask))
-            x_ys=coordinate[:,::-1]
+            #filter the green block where is not the decision button
+            filtered= coordinate[coordinate[:, 0]>600]
+            print(filtered)
+            if filtered.shape[0]==0:
+                print("no green click")
+                return
+            #remove the light green location where is not the button
+            x_ys=filtered[:,::-1]
             x_means=x_ys.mean(axis=0).astype(int)
             pyautogui.doubleClick(x_means[0],x_means[1],interval=0.25)
             print("green click")
@@ -135,4 +142,5 @@ if __name__=="__main__":
         d.start()
         d.continue_run()
         d.find_new_katana()
-        d.normal_click()
+        d.normal_click(1490,900) #please clear the number when change event  
+        time.sleep(5)
