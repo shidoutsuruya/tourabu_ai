@@ -85,13 +85,19 @@ class decide:
                 #computer will close
                 os.system("shutdown /s /t 200")
             sys.exit()
-        mask=np.all(self.img==SHADOW_GREEN,axis=-1)
+        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN) <= 10, axis=-1)
         is_green_color=np.any(mask)
         if is_green_color:
-            coordinate=np.column_stack(np.where(mask))
-            x_ys=coordinate[:,::-1]
-            x_means=x_ys.mean(axis=0).astype(int)
-            pyautogui.doubleClick(x_means[0],x_means[1],interval=0.25)
+            coordinate=np.column_stack(np.where(mask))  # rows (y), cols (x)
+            #filter row and column
+            region = (coordinate[:, 0]>800) & (coordinate[:, 1]<1100)
+            filtered = coordinate[region]
+            if filtered.shape[0]==0:
+                print("no green click")
+                return
+            xys = filtered[:, ::-1]  # to (x, y)
+            xy_mean = xys.mean(axis=0).astype(int)
+            pyautogui.doubleClick(xy_mean[0], xy_mean[1], interval=0.25)
             print("green click")
             #cv2.circle(self.img,x_means,5,(0,0,255),5)
             #plt.imshow(self.img)
@@ -231,7 +237,7 @@ class decide:
             self.normal_click(949,694)
 if __name__=="__main__":
     while True:
-        test=decide(os.path.join(FOLDER_PATH,"screenshot.png"))
+        test=decide(os.path.join(FOLDER_PATH,"1.png"))
         test.start()
         test.satsu_select()
         test.continue_run()

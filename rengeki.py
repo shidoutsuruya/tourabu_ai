@@ -76,12 +76,12 @@ class decide:
                 #computer will close
                 os.system("shutdown /s /t 200")
             sys.exit()
-        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN) <= 20, axis=-1)
+        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN) <= 10, axis=-1)
         is_green_color=np.any(mask)
         if is_green_color:
             coordinate=np.column_stack(np.where(mask))
             #filter the green block where is not the decision button
-            filtered= coordinate[coordinate[:, 0]>600]
+            filtered= coordinate[coordinate[:, 0]>800]
             if filtered.shape[0]==0:
                 print("no green click")
                 return
@@ -141,5 +141,4 @@ if __name__=="__main__":
         d.start()
         d.continue_run()
         d.find_new_katana()
-        d.normal_click(1490,900) #please clear the number when change event  
-        time.sleep(5)
+        d.normal_click() 

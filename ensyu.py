@@ -92,7 +92,7 @@ class decide:
             sys.exit()
 if __name__=="__main__":
     while True:
-        d=decide(FOLDER_PATH+"/screenshot.png")
+        d=decide(FOLDER_PATH+"/1.png")
         d.continue_run()
         d.find_new_katana()
         d.tired_check()
