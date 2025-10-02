@@ -27,7 +27,7 @@ class decide:
         self.img=(plt.imread(img_path)*255).astype(np.uint8)
         self.img_path=img_path
         #close the computer
-        self.close=False
+        self.close=True
     def image_catch(self):
         screenshot = pyautogui.screenshot()
         screenshot.save(self.img_path)
@@ -85,7 +85,7 @@ class decide:
                 #computer will close
                 os.system("shutdown /s /t 200")
             sys.exit()
-        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN) <= 10, axis=-1)
+        mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN)==0, axis=-1)
         is_green_color=np.any(mask)
         if is_green_color:
             coordinate=np.column_stack(np.where(mask))  # rows (y), cols (x)
