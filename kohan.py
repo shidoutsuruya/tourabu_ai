@@ -30,7 +30,7 @@ class decide:
         return count
     def tired_check(self):
         self.image_catch()
-        red_position=([688,665],[706,671],[834,658])
+        red_position=([720,660],[700,658],[717,667])
         if self.position_color_check(red_position,ALERT_RED)>=2:
             print("tired detected")
             if self.close:
