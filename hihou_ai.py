@@ -21,6 +21,7 @@ CONTINUE_ORANGE=np.array([222,108,15])
 SHINAN_GREEN=np.array([132,170,22])
 ALERT_RED=np.array([250,40,41])
 KATANA_NAVY=np.array([62,90,125])
+FORMATION_BLUE=np.array([27,106,255])
 class decide:
     #when playing, 80% of the website in google chrome
     def __init__(self,img_path:str):
@@ -58,7 +59,7 @@ class decide:
         return
     def start(self):
         #select butai
-        position1=([1500,900],[1544,900],[1514,972])
+        position1=([1500,882],[1592,881],[1520,949])
         time.sleep(0.5)
         self.image_catch()
         self.position_color_check(position1,COLOR_DEEP_RED,isClick=True)
@@ -110,7 +111,7 @@ class decide:
         self.image_catch()
         image=self.img
         #check whether is the selection part sinan green
-        position=([1517,872],[1517,888],[1517,905])
+        position=([1517,849],[1517,870],[1517,882])
         if self.position_color_check(position,SHINAN_GREEN)==3:
         #check koikoi satsu
             is_target_color=np.any(np.all(image==KOIKOI_GREEN,axis=-1))
@@ -127,7 +128,8 @@ class decide:
     def black_satsu_click(self):
         time.sleep(0.5)
         self.image_catch()
-        position=([381,330],[410,329],[505,362])
+        #trigger by black satsu
+        position=([348,336],[408,335],[505,329])
         is_trigger=0
         for p in position:
             if np.all(COLOR_BLACK-50<=self.img[p[1],p[0]])\
@@ -199,7 +201,7 @@ class decide:
         time.sleep(0.5)
         self.image_catch()
         image=self.img
-        position=([1567,280],[1570,340],[1539,314])
+        position=([1572,254],[1540,288],[1591,291])
         if self.position_color_check(position,TOUKEN_BLUE)==3:
             print("contined run detected")
             gray=cv2.GaussianBlur(image,(3,3), 0)
@@ -235,11 +237,19 @@ class decide:
         if self.position_color_check(position,KATANA_NAVY)==3:
             print("find new katana trigger")
             self.normal_click(949,694)
+    def team_formation_selection(self):
+        self.image_catch()
+        team_blue_position=([515,395],[949,395],[1390,395],[515,606],[949,606],[1390,606])
+        click_position=(490,680)
+        if self.position_color_check(team_blue_position,FORMATION_BLUE)>=3:
+            print("select formation")
+            pyautogui.click(click_position[0],click_position[1])
 if __name__=="__main__":
     while True:
         test=decide(os.path.join(FOLDER_PATH,"1.png"))
         test.start()
         test.satsu_select()
+        test.team_formation_selection()
         test.continue_run()
         test.black_satsu_click()
         test.continue_check()

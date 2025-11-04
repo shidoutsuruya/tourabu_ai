@@ -28,7 +28,7 @@ class decide:
             if count==3 and isClick:
                 pyautogui.click(p[0],p[1])
         return count
-    def tired_check(self):
+    def hurt_check(self):
         self.image_catch()
         red_position=([720,660],[700,658],[717,667])
         if self.position_color_check(red_position,ALERT_RED)>=2:
@@ -40,10 +40,22 @@ class decide:
                 #computer will close
                 os.system("shutdown /s /t 200")
             sys.exit()
+    def tired_check(self):
+        self.image_catch()
+        red_position=([686,668],[705,667],[702,679])
+        if self.position_color_check(red_position,ALERT_RED)>=2:
+            print("tired detected")
+            if self.close:
+                #close chrome
+                os.system("taskkill /im chrome.exe /f")
+                time.sleep(5)
+                #computer will close
+                os.system("shutdown /s /t 200")
+            sys.exit()
     def team_formation_selection(self):
         self.image_catch()
-        team_blue_position=([519,422],[955,484],[1395,424],[517,697],[943,634],[1387,635])
-        click_position=(465,705)
+        team_blue_position=([515,395],[949,395],[1390,395],[515,606],[949,606],[1390,606])
+        click_position=(490,680)
         if self.position_color_check(team_blue_position,FORMATION_BLUE)>=3:
             print("select formation")
             pyautogui.click(click_position[0],click_position[1])
@@ -54,5 +66,6 @@ while True:
     d=decide(r"C:\Users\Max\Desktop\tourabu_ai\1.png")
     d.image_catch()
     d.team_formation_selection()
+    d.hurt_check()
     d.tired_check()
     time.sleep(2)
