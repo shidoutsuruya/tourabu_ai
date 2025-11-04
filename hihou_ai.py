@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import time
 import os
 from typing import *
+import subprocess
 import sys
 FOLDER_PATH = r'C:/Users/Max/Desktop/tourabu_ai'
 COLOR_DEEP_RED=np.array([175,24,24])
@@ -75,16 +76,16 @@ class decide:
     def green_click(self):
         time.sleep(0.5)
         self.image_catch()
-        red_position=([703,667],[687,666])
+        red_position=([707,643],[689,646],[783,647],[886,637])
         #detect the katana is tired
-        if self.position_color_check(red_position,ALERT_RED,isClick=False)>1:
+        if self.position_color_check(red_position,ALERT_RED,isClick=False)>=2:
             print("alert detected!!!")
             if self.close:
-                #close chrome
-                os.system("taskkill /im chrome.exe /f")
+                #close edge
+                subprocess.run(["taskkill", "/F", "/IM", "MicrosoftEdge.exe"])
                 time.sleep(5)
                 #computer will close
-                os.system("shutdown /s /t 200")
+                subprocess.call(["shutdown", "/s", "/t", "200"])
             sys.exit()
         mask=np.all(np.abs(self.img[..., :3]-SHADOW_GREEN)==0, axis=-1)
         is_green_color=np.any(mask)
@@ -245,6 +246,7 @@ class decide:
             print("select formation")
             pyautogui.click(click_position[0],click_position[1])
 if __name__=="__main__":
+    print("start hihou ai")
     while True:
         test=decide(os.path.join(FOLDER_PATH,"1.png"))
         test.start()
